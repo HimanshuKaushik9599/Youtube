@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { Provider } from "react-redux";
+import Body from "./Components/Body";
+import Header from "./Components/Header";
+import store from "./Utils/store";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import MainContainer from "./Components/MainContainer";
+import WatchPage from "./Components/WatchPage";
+import SearchVideos from "./Components/SearchVideos";
+import './index.css';
 
 function App() {
+  const appRouter = createBrowserRouter([
+    {
+      path: "/",
+      element: (
+        <div className="flex flex-col h-screen">
+          <Header/>
+          <Body />
+        </div>
+      ),
+      children: [
+        { path: "/", element: <MainContainer /> },
+        {
+          path: "/watch",
+          element: <WatchPage />,
+        },
+        {
+          path: "/search",
+          element: <SearchVideos />,
+        },
+      ],
+    },
+  ]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <div className=" ">
+        {/* <Header /> */}
+        <RouterProvider router={appRouter} />
+      </div>
+    </Provider>
   );
 }
 
